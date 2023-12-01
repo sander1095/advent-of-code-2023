@@ -14,10 +14,27 @@ public class Day01 : BaseDay
     public override ValueTask<string> Solve_1() => new($"{_input
     .Select(x =>
     {
-        var firstCharNumber = x.First(x => ((short)x) is > 47 and < 58);
-        var lastCharNumber = x.Last(x => ((short)x) is > 47 and < 58);
+        char firstChar = '0';
+        char lastChar = '0';
+        for (int i = 0; i < x.Length; i++)
+        {
+            if (x[i] is >= '0' and <= '9')
+            {
+                firstChar = x[i];
+                break;
+            }
+        }
 
-        var combinedString = $"{firstCharNumber}{lastCharNumber}";
+        for (int i = x.Length - 1; i >= 0; i--)
+        {
+            if (x[i] is >= '0' and <= '9')
+            {
+                lastChar = x[i];
+                break;
+            }
+        }
+
+        var combinedString = $"{firstChar}{lastChar}";
         var total = int.Parse(combinedString);
         return total;
     }).Sum()}");
