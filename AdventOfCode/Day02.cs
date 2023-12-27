@@ -14,24 +14,30 @@ public class Day02 : BaseDay
     public override ValueTask<string> Solve_1()
     {
         var possibleGames = new List<int>();
-        foreach (var game in _input)
+        foreach (var game in _input) //Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         {
-            var seperated = game.Split(':');
-            var cubeSetInfo = seperated.Last();
-            var gameIdentifier = int.Parse(seperated.First().Split(' ').Last());
+            List<(int Amount, CubeColor Color)> amountWithColors = [];
 
-            List<(int Amount, CubeColor Color)> shownAmountWithCubes = [];
-            foreach (var set in cubeSetInfo.Split(';'))
+            var seperated = game.Split(':'); // ["Game 1", " 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
+            var gameIdentifier = int.Parse(seperated.First().Split(' ').Last()); // 1
+
+            var cubeSetInfo = seperated.Last(); // 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+            foreach (var set in cubeSetInfo.Split(';')) // foreach set in ["3 blue", "4 red"]
             {
-                foreach (var thing in set.Split(',').Select(x => x.Split(' ', StringSplitOptions.RemoveEmptyEntries)))
+                var rawAmountWithColors = set.Split(',')
+                    .Select(x => x.Split(' ', StringSplitOptions.RemoveEmptyEntries)); // "3", "blue"
+
+                foreach (var amountWithColor in rawAmountWithColors)
                 {
-                    shownAmountWithCubes.Add((int.Parse(thing.First()), Enum.Parse<CubeColor>(thing.Last(), true)));
+                    var amount = int.Parse(amountWithColor.First());
+                    var color = Enum.Parse<CubeColor>(amountWithColor.Last(), true);
+                    amountWithColors.Add((amount, color));
                 }
             }
 
-            var totalAmountOfGreen = shownAmountWithCubes.Where(x => x.Color == CubeColor.Green).Sum(x => x.Amount);
-            var totalAmountOfRed = shownAmountWithCubes.Where(x => x.Color == CubeColor.Red).Sum(x => x.Amount);
-            var totalAmountOfBlue = shownAmountWithCubes.Where(x => x.Color == CubeColor.Blue).Sum(x => x.Amount);
+            var totalAmountOfGreen = amountWithColors.Where(x => x.Color == CubeColor.Green).Sum(x => x.Amount);
+            var totalAmountOfRed = amountWithColors.Where(x => x.Color == CubeColor.Red).Sum(x => x.Amount);
+            var totalAmountOfBlue = amountWithColors.Where(x => x.Color == CubeColor.Blue).Sum(x => x.Amount);
 
             if (totalAmountOfGreen <= 13 && totalAmountOfRed <= 12 && totalAmountOfBlue <= 14)
             {
