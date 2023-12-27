@@ -35,7 +35,9 @@ public class Day02 : BaseDay
                 }
             }
 
-            if (!amountWithColors.Where(x => x.Color == CubeColor.Green).Any(x => x.Amount > 13) && !amountWithColors.Where(x => x.Color == CubeColor.Blue).Any(x => x.Amount > 14) && !amountWithColors.Where(x => x.Color == CubeColor.Red).Any(x => x.Amount > 12))
+            if (!amountWithColors.Where(x => x.Color == CubeColor.Green).Any(x => x.Amount > 13) &&
+                !amountWithColors.Where(x => x.Color == CubeColor.Blue).Any(x => x.Amount > 14) && 
+                !amountWithColors.Where(x => x.Color == CubeColor.Red).Any(x => x.Amount > 12))
             {
                 possibleGames.Add(gameIdentifier);
             }
